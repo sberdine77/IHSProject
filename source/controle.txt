@@ -1,0 +1,5 @@
+display1 = 1
+display2 = 2
+ledg = 3
+ledr = 4
+switches = 5

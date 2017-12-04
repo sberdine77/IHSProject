@@ -6,11 +6,16 @@
 
 using namespace LibSerial;
 
-char* serialRecievePrint(SerialStream* serial_port){
+typedef struct Pio {
+  int pio;
+  int dado;
+} pio;
+
+char* serialRecievePrint(SerialStream* serial_port, int tam){
     char next_byte;
     char* ID = new char[8];    
 
-    for(int i = 0; i<8;i++){
+    for(int i = 0; i<tam;i++){
         serial_port->get(next_byte);
         if(next_byte == '.'){
             i=-1;          
@@ -23,13 +28,13 @@ char* serialRecievePrint(SerialStream* serial_port){
     return ID;
 }
 
-int serialRecieve(SerialStream* serial_port)
+int serialRecieve(SerialStream* serial_port, char* dir)
 {
     using namespace std;
     using namespace LibSerial;
 
     char c;
-    serial_port->Open("/dev/ttyUSB1");
+    serial_port->Open(dir);
     if (!serial_port->good()) {
         std::cerr << "[" << __FILE__ << ":" << __LINE__ << "] "
                   << "Error: Could not open serial port."
@@ -85,13 +90,22 @@ int main(int argc, char** argv){
     using namespace LibSerial;
     int x;
     char* ID;
+    char* senha;
     SerialStream *serial_rfid = new SerialStream;
+    SerialStream *serial_voz = new SerialStream;
 
-    serialRecieve(serial_rfid); 
+    serialRecieve(serial_rfid, "/dev/ttyUSB1"); 
+    serialRecieve(serial_voz, "/dev/ttyUSB2");
     while(1){
-        ID = serialRecievePrint(serial_rfid);
+        ID = serialRecievePrint(serial_rfid, 8);
         for(int i = 0; i<8;i++){
             std::cout << ID[i];
+        }
+        std::cout << std::endl;
+
+        senha = serialRecievePrint(serial_rfid, 1);
+        for(int i = 0; i<1;i++){
+            std::cout << senha[i];
         }
         std::cout << std::endl;
 

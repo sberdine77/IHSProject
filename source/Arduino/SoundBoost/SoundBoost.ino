@@ -29,13 +29,13 @@ uint8_t buf[64];
 
 int led = 13;
 
-#define ligar    (0)
-#define desligar   (1) 
-#define user1 (2)
-#define user2 (3)
-#define user3 (4)
-#define user4 (5)
-#define user5 (6)
+#define user1 (0)
+#define user2 (1)
+#define user3 (2)
+#define user4 (3)
+#define user5 (4)
+#define user6 (5)
+#define user7 (6)
 
 /**
   @brief   Print signature, if the character is invisible, 
@@ -61,39 +61,39 @@ void setup()
   myVR.begin(9600);
   
   Serial.begin(115200);
-  Serial.println("Elechouse Voice Recognition V3 Module\r\nControl LED sample");
+  //Serial.println("Elechouse Voice Recognition V3 Module\r\nControl LED sample");
   
   pinMode(led, OUTPUT);
     
   if(myVR.clear() == 0){
-    Serial.println("Recognizer cleared.");
+    //Serial.println("Recognizer cleared.");
   }else{
-    Serial.println("Not find VoiceRecognitionModule.");
-    Serial.println("Please check connection and restart Arduino.");
+    //Serial.println("Not find VoiceRecognitionModule.");
+    //Serial.println("Please check connection and restart Arduino.");
     while(1);
   }
   
-  if(myVR.load((uint8_t)ligar) >= 0){
-    Serial.println("onRecord loaded");
+  if(myVR.load((uint8_t)user6) >= 0){
+    //Serial.println("onRecord loaded");
   }
   
-  if(myVR.load((uint8_t)desligar) >= 0){
-    Serial.println("offRecord loaded");
+  if(myVR.load((uint8_t)user7) >= 0){
+    //Serial.println("offRecord loaded");
   }
   if(myVR.load((uint8_t)user1) >= 0){
-    Serial.println("user1 loaded");
+    //Serial.println("user1 loaded");
   }
   if(myVR.load((uint8_t)user2) >= 0){
-    Serial.println("user2 loaded");
+    //Serial.println("user2 loaded");
   }
   if(myVR.load((uint8_t)user3) >= 0){
-    Serial.println("user3 loaded");
+    //Serial.println("user3 loaded");
   }
   if(myVR.load((uint8_t)user4) >= 0){
-    Serial.println("user4 loaded");
+    //Serial.println("user4 loaded");
   }
   if(myVR.load((uint8_t)user5) >= 0){
-    Serial.println("user5 loaded");
+    //Serial.println("user5 loaded");
   }
 }
 
@@ -103,31 +103,29 @@ void loop()
   ret = myVR.recognize(buf, 50);
   if(ret>0){
     switch(buf[1]){
-      case ligar:
-        /** turn on LED */
-        digitalWrite(led, HIGH);
-        break;
-      case desligar:
-        /** turn off LED*/
-        digitalWrite(led, LOW);
-        break;
       case user1:
-       Serial.println("usuario 1 reconhecido");
+       Serial.write("1");
        break;
       case user2:
-       Serial.println("usuario 2 reconhecido");
+       Serial.write("2");
        break;
       case user3:
-       Serial.println("usuario 3 reconhecido");
+       Serial.write("3");
        break;
       case user4:
-       Serial.println("usuario 4 reconhecido");
+       Serial.write("4");
        break;
       case user5:
-       Serial.println("usuario 5 reconhecido");
+       Serial.write("5");
+       break;
+      case user6:
+       Serial.write("6");
+       break;
+      case user7:
+       Serial.write("7");
        break;
       default:
-        Serial.println("Record function undefined");
+        //Serial.println("Record function undefined");
         break;
     }
     /** voice recognized */

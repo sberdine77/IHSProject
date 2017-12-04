@@ -2,16 +2,33 @@
 #include <iostream>
 #include <unistd.h>
 #include <cstdlib>
-#include <string>
+#include <string.h>
 
 using namespace LibSerial;
 
-typedef struct Pio {
-  int pio;
-  int dado;
-} pio;
+struct Person{
+    char* Nome;
+    char* tag;
+    char password;
+    int level;
+}pessoas[7];
 
-char* serialRecievePrint(SerialStream* serial_port, int tam){
+/*class Pessoa{
+    public:
+        char* Nome;
+        char* tag;
+        char password;
+        int level;
+    public:
+        Pessoa(char* Nome, char* tag, char password, int level){
+            this->Nome = Nome;
+            this->tag = tag;
+            this->password = password;
+            this->level = level;
+        }
+};*/
+
+char* serialRecievePrint(SerialStream* serial_port){
     char next_byte;
     char* ID = new char[8];  
 
@@ -19,7 +36,7 @@ char* serialRecievePrint(SerialStream* serial_port, int tam){
         ID[j] = 'a';
     }  
 
-    for(int i = 0; i<tam;i++){
+    for(int i = 0; i<8;i++){
         serial_port->get(next_byte);
         if(next_byte == '.'){
             i=-1;          
@@ -35,12 +52,13 @@ char* serialRecievePrint(SerialStream* serial_port, int tam){
 
 
 int serialRecieve(SerialStream* serial_port, char* dir)
+
 {
     using namespace std;
     using namespace LibSerial;
 
     char c;
-    serial_port->Open(dir);
+    serial_port->Open("/dev/ttyUSB1");
     if (!serial_port->good()) {
         std::cerr << "[" << __FILE__ << ":" << __LINE__ << "] "
                   << "Error: Could not open serial port."
@@ -94,25 +112,59 @@ std::endl ;
 int main(){
     using namespace std;
     using namespace LibSerial;
-    int x;
-    char* ID;
-    char* senha;
-    SerialStream *serial_rfid = new SerialStream;
-    SerialStream *serial_voz = new SerialStream;
 
-    //serialRecieve(serial_rfid, "/dev/ttyUSB1"); 
-    serialRecieve(serial_voz, "/dev/ttyUSB1");
+    for(int i=0; i<7;i++){
+        pessoas[i].password = 49+i;
+    }
+
+    pessoas[0].Nome = (char*)("Lucas\0");
+    pessoas[0].tag = (char*)("372F64F0\0");
+    pessoas[0].level = 3;
+
+    pessoas[1].Nome = (char*)("Thyago\0");
+    pessoas[1].tag = (char*)("A70B64F0\0");
+    pessoas[1].level = 3;
+
+    pessoas[2].Nome = (char*)("Mateus\0");
+    pessoas[2].tag = (char*)("E71EB654\0");
+    pessoas[2].level = 1;
+
+    pessoas[3].Nome = (char*)("Savio\0");
+    pessoas[3].tag = (char*)("876EA2FD\0");
+    pessoas[3].level = 3;
+
+    pessoas[4].Nome = (char*)("Carriço\0");
+    pessoas[4].tag = (char*)("278F63F0\0");
+    pessoas[4].level = 3;
+
+    //Pessoa *pessoa1 = new Pessoa((char*)("Carriço\0"), (char*)("278F63F0\0"), '1', 1);
+
+    int x;
+    int i;
+
+    char* ID;
+    SerialStream *serial_rfid = new SerialStream;
+
+    serialRecieve(serial_rfid); 
     while(1){
-        // ID = serialRecievePrint(serial_rfid, 8);
-        // for(int i = 0; i<8;i++){
-        //     std::cout << ID[i];
-        // }
-        // std::cout << std::endl;
+        ID = serialRecievePrint(serial_rfid);
+        for(i= 0; i<5;i++){ 
+            if(strcmp(ID, pessoas[i].tag) == 0)
+            {
+                std::cout << pessoas[i].Nome << std::endl;
+                break;
+            }
+        }
+        if(i==5)
+        {
+            std::cout << "deu merda";
+        }
+        std::cout << std::endl;
 
         senha = serialRecievePrint(serial_voz, 1);
         
         std::cout << (int)(senha[0]);
-        std::cout << std::endl;
+        
 
     }
 

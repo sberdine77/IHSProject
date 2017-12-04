@@ -78,8 +78,37 @@ static ssize_t char_device_write(struct file *filep, const char *buf, size_t len
     ptr += 4;
     b   += 4;
     iowrite32(k, sevenSegmentDisplays);
+    }
   }
+
+  if (ptr->pio == 2){
+    while (b <  len) {
+    unsigned k = dado;
+    ptr += 4;
+    b   += 4;
+    iowrite32(k, hexport);
+    }
   }
+
+  if(ptr->pio == 3){
+    while (b <  len) {
+    unsigned k = dado;
+    ptr += 4;
+    b   += 4;
+    iowrite32(k, ledGreen);
+    }
+    //printf("im in\n");
+  }
+
+  if(ptr->pio == 4){
+    while (b <  len) {
+    unsigned k = dado;
+    ptr += 4;
+    b   += 4;
+    iowrite32(k, ledRed);
+    }
+  }
+
   return count;
 }
 
@@ -146,8 +175,6 @@ static void pci_remove(struct pci_dev *dev) {
   iounmap(buttons);
 
 }
-
-
 //-- Global module registration
 
 static int __init altera_driver_init(void) {

@@ -18,13 +18,13 @@ int main() {
   j.pio = 5;
   int dev = open("/dev/de2i150_altera", O_RDWR);
 
-  for (i=0; i>-1; i++) {
+  while(1) {
     read(dev, &j, 4);
     k.dado = hexdigit[j.dado & 0xF]
       | (hexdigit[(j.dado >>  4) & 0xF] << 8)
       | (hexdigit[(j.dado >>  8) & 0xF] << 16)
       | (hexdigit[(j.dado >> 12) & 0xF] << 24);
-    k = ~k;
+    k.dado = ~(k.dado);
     write(dev, &k, 4);
   }
 
@@ -32,6 +32,4 @@ int main() {
   return 0;
 }
 
-0000 0000 0000 0000 0000 0011      0001 0010
-0000 0000 0000 0000 0000 0000 0000 1111
 

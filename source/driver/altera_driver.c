@@ -49,15 +49,19 @@ static int char_device_release(struct inode *inodep, struct file *filep) {
 }
 
 static ssize_t char_device_read(struct file *filep, char *buf, size_t len, loff_t *off) {
-  pio *switches;
+  int switches;
   size_t count = len;
+  pio *ptr = (pio *) buf;
   //  printk(KERN_ALERT "altera_driver: read %d bytes\n", len);
 
   while (len > 0) {
-    switches->dado = ioread16(inport);
-    put_user(switches, buf);
-    //put_user((switches >> 8) & 0xFF, buf++);
-    len -= 2;
+    switches = ioread32(inport);
+    if (ptr->pio == 5){
+      put_user(switches, &(ptr->dado));
+      //put_user((switches >> 8) & 0xFF, buf++);
+      len -= 2;
+    }
+    
   }
   return count;
 }
@@ -66,15 +70,15 @@ static ssize_t char_device_write(struct file *filep, const char *buf, size_t len
   pio *ptr = (pio *) buf;
   size_t count = len;
   short b = 0;
+  int dado = ptr->dado;
   //  printk(KERN_ALERT "altera_driver: write %d bytes\n", len);
   if (ptr->pio == 1){
-    iowrite32(&(pio->dado), sevenSegmentDisplays);
-  }
-  while (b <  len) {
-    unsigned k = *((int *) ptr);
+    while (b <  len) {
+    unsigned k = dado;
     ptr += 4;
     b   += 4;
-    iowrite32(k, hexport);
+    iowrite32(k, sevenSegmentDisplays);
+  }
   }
   return count;
 }
@@ -136,6 +140,10 @@ static int pci_probe(struct pci_dev *dev, const struct pci_device_id *id) {
 static void pci_remove(struct pci_dev *dev) {
   iounmap(hexport);
   iounmap(inport);
+  iounmap(sevenSegmentDisplays);
+  iounmap(ledGreen);
+  iounmap(ledRed);
+  iounmap(buttons);
 
 }
 

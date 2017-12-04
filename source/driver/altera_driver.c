@@ -55,7 +55,7 @@ static ssize_t char_device_read(struct file *filep, char *buf, size_t len, loff_
   //  printk(KERN_ALERT "altera_driver: read %d bytes\n", len);
 
   while (len > 0) {
-    switches = ioread32(inport);
+    switches = ioread16(inport);
     if (ptr->pio == 5){
       put_user(switches, &(ptr->dado));
       //put_user((switches >> 8) & 0xFF, buf++);
@@ -131,7 +131,7 @@ static int pci_probe(struct pci_dev *dev, const struct pci_device_id *id) {
   sevenSegmentDisplays = ioremap_nocache(resource + 0XC040, 0X20);
   ledGreen = ioremap_nocache(resource + 0xC060, 0X20);
   ledRed = ioremap_nocache(resource + 0xC080, 0x20);
-  buttons = ioremap_nocache(resource + 0xD00, 0x20);
+  buttons = ioremap_nocache(resource + 0xC0A0, 0x20);
 
 
   return 0;

@@ -28,7 +28,7 @@ __attribute__((section("__versions"))) = {
 	{ 0xf9e546fe, "pci_enable_device" },
 	{ 0xb2fd5ceb, "__put_user_4" },
 	{ 0xa1c76e0a, "_cond_resched" },
-	{ 0xe484e35f, "ioread32" },
+	{ 0xc5534d64, "ioread16" },
 	{ 0x436c2179, "iowrite32" },
 	{ 0xedc03953, "iounmap" },
 	{ 0x50eedeb8, "printk" },
@@ -42,4 +42,4 @@ __attribute__((section(".modinfo"))) =
 
 MODULE_ALIAS("pci:v00001172d00000004sv*sd*bc*sc*i*");
 
-MODULE_INFO(srcversion, "F75894CD8C1125F25FAB990");
+MODULE_INFO(srcversion, "301559944E7397C41784DA5");

@@ -217,7 +217,7 @@ int main(int argc, char** argv) {
 			{
 				std::cout << pessoas[i].Nome << std::endl;
 				Imagem = imread(pessoas[i].foto, CV_LOAD_IMAGE_COLOR);
-				if (!matrizOrigemImagem.data)
+				if (!Imagem.data)
 				{
 					cout << "Could not open or find the image" << std::endl;
 					return -1;

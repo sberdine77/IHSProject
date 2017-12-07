@@ -170,27 +170,27 @@ int main(int argc, char** argv) {
 	pessoas[0].Nome = (char*)("Lucas\0");
 	pessoas[0].tag = (char*)("372F64F0\0");
 	pessoas[0].level = 3;
-	pessoas[0].foto = (char*)("pontes.jpg");
+	pessoas[0].foto = (char*)("lama2.jpeg");
 
 	pessoas[1].Nome = (char*)("Thyago\0");
 	pessoas[1].tag = (char*)("A70B64F0\0");
 	pessoas[1].level = 3;
-	pessoas[1].foto = (char*)("pontes.jpg");
+	pessoas[1].foto = (char*)("thyago.jpg");
 
 	pessoas[2].Nome = (char*)("Mateus\0");
 	pessoas[2].tag = (char*)("E71EB654\0");
 	pessoas[2].level = 1;
-	pessoas[2].foto = (char*)("pontes.jpg");
+	pessoas[2].foto = (char*)("mateus.jpg");
 
 	pessoas[3].Nome = (char*)("Sávio\0");
 	pessoas[3].tag = (char*)("876EA2FD\0");
 	pessoas[3].level = 3;
-	pessoas[3].foto = (char*)("pontes.jpg");
+	pessoas[3].foto = (char*)("savio.jpg");
 
 	pessoas[4].Nome = (char*)("Carriço\0");
 	pessoas[4].tag = (char*)("278F63F0\0");
 	pessoas[4].level = 3;
-	pessoas[4].foto = (char*)("pontes.jpg");
+	pessoas[4].foto = (char*)("Daniel.jpeg");
 
 	//Pessoa *pessoa1 = new Pessoa((char*)("Carriço\0"), (char*)("278F63F0\0"), '1', 1);
 
